@@ -1,8 +1,10 @@
 #!/bin/bash -x
 echo "WEL-COME To Snake And Ladder Game"
 
+declare -A playerPosition
 #variable
 position=0
+dieCount=0
 
 #CONSTANTS
 START_POSITION=0
@@ -24,15 +26,17 @@ function getExactPosition(){
 }
 
 function checkOptions(){
-	while [[ $position -lt $MAX_POSITION ]]
+	while [[ $position -ne $MAX_POSITION ]]
 	do
 		randomVariable=$((RANDOM%6+1))
+		((dieCount++))
 		case $((RANDOM%3)) in 
 			$NOPLAY) position=0 ;;
 			$LADDER) position=$((position + $randomVariable)) ;;
 			$SNAKE) position=$((position - $randomVariable)) ;;
 		esac
 		getExactPosition
+		playerPosition[$dieCount]=$position
 	done
 }
 checkOptions
